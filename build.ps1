@@ -47,15 +47,15 @@ Copy-Item "$build/patch-dex/classes.dex" "$build/bundle/classes.dex"
 $manifest = @'
 Manifest-Version: 1.0
 Name: Niagara Open-Meteo
-Description: Experimental weather adapter for Niagara 1.16.28 build 1634
-Version: 0.1.0
+Description: Weather adapter for Niagara 1.16.28 and 1.16.29
+Version: 0.2.0
 License: GPLv3
 Source: https://github.com/mariohenrique85/niagara-open-meteo
 Patcher-Version: 1.14.1
 
 '@
 Set-Content "$build/MANIFEST.MF" $manifest -Encoding ascii
-& $jar cfm "$build/niagara-open-meteo-0.1.0.mpp" "$build/MANIFEST.MF" -C "$build/bundle" .
+& $jar cfm "$build/niagara-open-meteo-0.2.0.mpp" "$build/MANIFEST.MF" -C "$build/bundle" .
 Check-Exit 'MPP packaging'
 if ($RunTests) {
     & $javac --release 8 -Xlint:-options -encoding UTF-8 -cp "$build/extension$cp$toolRoot/json.jar" -d "$build/tests" "$PSScriptRoot/tests/OpenMeteoProviderTest.java"
@@ -64,8 +64,9 @@ if ($RunTests) {
     Check-Exit 'Weather contract tests'
 }
 New-Item -ItemType Directory -Force "$PSScriptRoot/dist" | Out-Null
-Copy-Item "$build/niagara-open-meteo-0.1.0.mpp" "$PSScriptRoot/dist/niagara-open-meteo-0.1.0.mpp"
-Get-FileHash "$PSScriptRoot/dist/niagara-open-meteo-0.1.0.mpp" -Algorithm SHA256 |
-    ForEach-Object { "$($_.Hash.ToLowerInvariant())  niagara-open-meteo-0.1.0.mpp" } |
+Copy-Item "$build/niagara-open-meteo-0.2.0.mpp" "$PSScriptRoot/dist/niagara-open-meteo-0.2.0.mpp"
+Get-FileHash "$PSScriptRoot/dist/niagara-open-meteo-0.2.0.mpp" -Algorithm SHA256 |
+    ForEach-Object { "$($_.Hash.ToLowerInvariant())  niagara-open-meteo-0.2.0.mpp" } |
     Set-Content "$PSScriptRoot/dist/SHA256SUMS" -Encoding ascii
-Write-Host "Built: $PSScriptRoot/dist/niagara-open-meteo-0.1.0.mpp"
+Write-Host "Built: $PSScriptRoot/dist/niagara-open-meteo-0.2.0.mpp"
+

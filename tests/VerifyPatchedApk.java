@@ -74,12 +74,16 @@ public final class VerifyPatchedApk {
         check(verification.isVerifiedUsingV2Scheme(),"APK v2 signing");
         Map<String,ClassDef> original=classes(args[0]),patched=classes(args[1]);
         check(patched.size()==original.size()+2,"Only two extension classes added");
-        String coroutine="Lb/hKoAGpeDNCeUKj;", attribution="Lb/vrhe4FRDCvomUW;";
+        boolean is1635=original.containsKey("Lb/Hu7yEGV1H1r1bdCCcwuur8scnv1v;");
+        String coroutine=is1635 ? "Lb/Hu7yEGV1H1r1bdCCcwuur8scnv1v;" : "Lb/hKoAGpeDNCeUKj;";
+        String attribution=is1635 ? "Lb/V90i4gEMcGLCcnbrkYt;" : "Lb/vrhe4FRDCvomUW;";
+        String fetchName=is1635 ? "A1Md0KwGu5VUxb7FHaW" : "QU0xcQ3PL93h1HkpS1";
+        String attributionName=is1635 ? "Kj2k1AqaZsaVCT" : "scSVXSelHn0vGdEhMIkeOConMr";
         String bridge="Lapp/d0nj/extension/weather/NiagaraWeatherBridge;";
         check(patched.containsKey(bridge),"Bridge merged");
         check(patched.containsKey("Lapp/d0nj/extension/weather/OpenMeteoProvider;"),"Provider merged");
-        Method oldMethod=method(original.get(coroutine),"QU0xcQ3PL93h1HkpS1");
-        Method newMethod=method(patched.get(coroutine),"QU0xcQ3PL93h1HkpS1");
+        Method oldMethod=method(original.get(coroutine),fetchName);
+        Method newMethod=method(patched.get(coroutine),fetchName);
         List<Instruction> oldCode=code(oldMethod),newCode=code(newMethod);
         check(((NarrowLiteralInstruction)newCode.get(2)).getNarrowLiteral()==13,"Only weather branch 13");
         check(((OffsetInstruction)newCode.get(3)).getCodeOffset()==7,"Other branches jump to original entry");
@@ -99,7 +103,7 @@ public final class VerifyPatchedApk {
                 Method a=before.next(),b=after.next();
                 check(a.toString().equals(b.toString()),"Method descriptor retained");
                 if(c.getType().equals(coroutine)&&a.getName().equals(newMethod.getName()))continue;
-                if(c.getType().equals(attribution)&&a.getName().equals("scSVXSelHn0vGdEhMIkeOConMr"))continue;
+                if(c.getType().equals(attribution)&&a.getName().equals(attributionName))continue;
                 List<Instruction> ai=code(a),bi=code(b);
                 check(semanticCode(ai,0).equals(semanticCode(bi,0)),"Untouched instructions and control flow "+a);
                 unchangedMethods++;
@@ -122,3 +126,4 @@ public final class VerifyPatchedApk {
         System.out.println("PASS: APK signature verified; weather-only hook; "+unchangedMethods+" other methods and "+unchangedFiles+" non-DEX files unchanged.");
     }
 }
+
