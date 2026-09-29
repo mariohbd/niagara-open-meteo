@@ -1,0 +1,30 @@
+{
+  "jdk": "21",
+  "tools": [
+    {
+      "file": "android-api.jar",
+      "url": "https://repo.maven.apache.org/maven2/com/google/android/android/4.1.1.4/android-4.1.1.4.jar",
+      "sha256": "84072541CBB711EFF89F7277100FF854929A446DBA7CEB1B195C340E0B4FD3CB"
+    },
+    {
+      "file": "json.jar",
+      "url": "https://repo.maven.apache.org/maven2/org/json/json/20250517/json-20250517.jar",
+      "sha256": "3EA61B2A06E31EDF1C91134FE9106B0EBB16628BE169F3DB75BC7A2B06B45796"
+    },
+    {
+      "file": "r8.jar",
+      "url": "https://dl.google.com/dl/android/maven2/com/android/tools/r8/9.5.20-dev/r8-9.5.20-dev.jar",
+      "sha256": "BD6EC8558F000A4E6A705AE480F8B0A4EFD15635358BBD561C8A993B49779D7B"
+    },
+    {
+      "file": "morphe-desktop.jar",
+      "url": "https://github.com/MorpheApp/morphe-desktop/releases/download/v1.17.0/morphe-desktop-1.17.0-all.jar",
+      "sha256": "8CF6A9EAB4EE9DAB146BDDC24681897851564F53116BAEC11F36BA2FA2F589BE"
+    },
+    {
+      "file": "kotlin-compiler.zip",
+      "url": "https://github.com/JetBrains/kotlin/releases/download/v2.4.20/kotlin-compiler-2.4.20.zip",
+      "sha256": "59E9CA74C7904EF2C122B12114937673CCCE68DE820A663F0ED66CCF8799E0B7"
+    }
+  ]
+}
